@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/index.css">
+    <style>
+        .main-div {
+            margin: auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container page-top">
+        <br>
+        <h1>Example</h1>
+    </div>
+    <br>
+    <div class="container">
+        <p>A patient in her first pregnancy with twins is admitted to the obstetric emergency room due to concerns about preeclampsia. She is currently at 31+4 weeks gestation. She had a previous hospitalization two weeks ago with similar complaints, and no treatment was administered then.</p>
+
+        <p>During her first trimester, her cffDNA test was positive, and her blood type is B. She has a history of diabetes mellitus (DM) and is nulliparous. Her mean arterial pressure (MAP) was measured at 85 mmHg, and her PLGF levels were 150 pg/mL.</p>
+        
+        <p>In her second trimester, her MAP increased to 90 mmHg, SFLT1 levels were 50 pg/mL, the SFLT1/PLGF ratio was 3.0, and her PLGF levels dropped to 160 pg/mL.</p>
+        
+        <p>Currently, in her third trimester, her MAP is 95 mmHg, the SFLT1/PLGF ratio is 4.0, SFLT1 levels are 60 pg/mL, and PLGF levels are 170 pg/mL.</p>
+        
+        <p>Given these clinical parameters for a twin pregnancy, the tool will calculate her absolute risk for developing preeclampsia.</p>
+        
+        <p><b>Summary of Inputs:</b></p>
+        <ul>
+            <li>First Trimester:</li>
+            <ul>
+                <li>cffDNA: 14?</li>
+                <li>B: 1</li>
+                <li>DM: 1</li>
+                <li>Nulliparous: 1</li>
+                <li>MAP: 85 mmHg</li>
+                <li>PLGF: 150 pg/mL</li>
+            </ul>
+            <li>Second Trimester:</li>
+            <ul>
+                <li>MAP: 90 mmHg</li>
+                <li>SFLT1: 50 pg/mL</li>
+                <li>SFLT1/PLGF Ratio: 3.0</li>
+                <li>PLGF: 160 pg/mL</li>
+            </ul>
+            <li>Third Trimester:</li>
+            <ul>
+                <li>MAP: 95 mmHg</li>
+                <li>SFLT1/PLGF Ratio: 4.0</li>
+                <li>SFLT1: 60 pg/mL</li>
+                <li>PLGF: 170 pg/mL</li>
+            </ul>
+        </ul>
+        
+    </div>
+{% endblock %}
+
