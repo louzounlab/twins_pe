@@ -225,18 +225,36 @@
 
     {% if risks %}
         <br>
-        <div class="row">
-            <div class="col">
-                <label class="badge text-bg-primary" style="font-size: 20px;">Absolute risk based on first trimester inputs:<br><br>{{ risks[0] }}</label>
-            </div>
-            <div class="col">
-                <label class="badge text-bg-secondary" style="font-size: 20px;">Absolute risk based on second trimester inputs:<br><br>{{ risks[1] }}</label>
-            </div>
-            <div class="col">
-                <label class="badge text-bg-info" style="font-size: 20px;">Absolute risk based on third trimester inputs:<br><br>{{ risks[2] }}</label>
-            </div>
-        </div>
         <br>
+        <div class="row text-center">
+             <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">First trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[0]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on first trimester inputs {{ risks[0]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+
+            <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Second trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[1]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on second trimester inputs {{ risks[1]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Third trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 6px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[2]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on  third trimester inputs {{ risks[2]}}.</p>
+            </div>
+ 
+        </div>
     {% endif %}
     <br><br>
 </div>
