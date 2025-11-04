@@ -112,12 +112,7 @@ def process_gdm_form():
                                    error="GDM model configuration file not found")
 
         mean_dict = dict(zip(mean_std_df["label"], mean_std_df["Mean"]))
-
-        # Build the DataFrame dynamically with all possible features
-        # data_df = pd.DataFrame({
-        #     label: [float(data.get(label)) if data.get(label) not in [None, ""] else mean_dict.get(label, 0.0)]
-        #     for label in mean_dict.keys()
-        # })
+        # Build the data dictionary with mean imputation
         data_dict = {}
         for label in mean_dict.keys():
             value = data.get(label)
@@ -133,34 +128,6 @@ def process_gdm_form():
         data_df = pd.DataFrame({k: [v] for k, v in data_dict.items()})
 
         # Normalize the data (no need to normalize because GDM models are already trained with original data)
-        # with open("./static/mean_std_gdm.csv") as mean_std_f:
-        #     for line in mean_std_f:
-        #         if "label,Mean,Std" in line:
-        #             continue
-        #         parts = line.strip().split(",")
-        #         if len(parts) != 4: # Ensure there are exactly 3 parts  label_2
-        #             continue
-
-        #         label, mean, std, _ = parts
-
-        #         if label not in data_df.columns:
-        #             print(f"Skipping label '{label}' because it is not in the DataFrame.")
-        #             continue
-
-        #         # Skip columns where std is empty
-        #         if not std.strip():
-        #             print(f"Skipping column '{label}' because std is empty.")
-        #             continue
-
-        #         # Convert mean and std to floats
-        #         mean = float(mean)
-        #         std = float(std)
-                
-        #         print(f"\nValue {data_df[label]} Normalizing {label} with mean={mean}, std={std}\n")
-        #         # Apply normalization
-        #         data_df[label] = (data_df[label] - mean) / std
-
-        #         print(f"\nValue {data_df[label]}\n ")
 
         # Predict the risk using GDM models
         risks = []
@@ -173,7 +140,6 @@ def process_gdm_form():
             data_df_ = data_df.copy()
             try:
                 feature_names = model.feature_name()
-                # print(f"GDM Model {i} Features:", feature_names)
 
                 # Check if all required features are available
                 missing_features = [f for f in feature_names if f not in data_df_.columns]
@@ -213,12 +179,6 @@ def process_pe_form():
         mean_std_df = pd.read_csv("./static/mean_std_tw.csv")
         mean_dict = dict(zip(mean_std_df["label"], mean_std_df["Mean"]))
 
-        # # Build the DataFrame dynamically
-        # data_df = pd.DataFrame({
-        #     label: [float(data.get(label)) if data.get(label) not in [None, ""] else mean_dict[label]]
-        #     for label in mean_dict
-        # })
-##############################################################################################################
         # Start with the actual form data
         data_df = pd.DataFrame({key: [float(value)] for key, value in data.items() if value not in [None, ""]})
 
@@ -229,13 +189,7 @@ def process_pe_form():
         for label in mean_dict.keys():
             if label not in data_df.columns:
                 data_df[label] = [mean_dict[label]]
-                # print(f"[INFO] Added missing feature '{label}' with mean value: {mean_dict[label]}")
 
-        # Check for form inputs that don't have mean values
-        # for key in data.keys():
-            # if key not in mean_dict:
-                # print(f"[WARNING] Form input '{key}' has no corresponding mean value in mean_dict")
-##############################################################################################################
         with open(f"static/mean_std_tw.csv") as mean_std_f:
             for line in mean_std_f:
                 if "label,Mean,Std" in line:# skip header
@@ -264,16 +218,12 @@ def process_pe_form():
         
         for i,model in enumerate(loaded_models):
             data_df_ = data_df.copy()
-            # risk = model.predict_proba(data_df)[:, 1][0]
-            # Assuming `model` is a LightGBM Booster object
             feature_names = model.feature_name()
-            # print("Features the model learned about:", feature_names)
             data_df_ = data_df_[feature_names]  # Ensure the order of the columns is the same as when the model was trained
             probabilities = model.predict(data_df_)  # For binary classification, this returns probabilities for class 1
             risk = probabilities[0]  # Extract the probability for the first sample
             final_risk = calculate_risk(risk,model_from_trimester[i])
             risks.append(final_risk)
-            #risks.append(risk)
 
         output_risks = [str(round(float(risk*100), 2))+'%' for risk in risks]
 
