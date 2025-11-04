@@ -7,7 +7,7 @@ import time
 import pickle
 import shutil
 import pandas as pd
-
+ 
 
 # create an instance of the Flask class, with the name of the running application and the paths for the static files and templates
 app = Flask(__name__, static_folder='static', template_folder="templates")
